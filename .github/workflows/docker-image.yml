@@ -24,7 +24,7 @@ jobs:
         cache: maven
         
     - name: build with maven
-      run: maven -B package --file pom.xml
+      run: mvn -B package --file pom.xml
     
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag nefos:$(date +%s)
