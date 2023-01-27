@@ -1,0 +1,30 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: chackout
+      uses: actions/checkout@v3
+    
+    - name: set up java
+      uses: action/setup-java@v3
+      with:
+        java-version: 17
+        distribution: 'adopt'
+        cache: maven
+        
+    - name: build with maven
+      run: maven -B package --file pom.xml
+    
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag nefos:$(date +%s)
